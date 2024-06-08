@@ -1,6 +1,6 @@
 import {Todo} from '../type/todo';
 
-const baseURL: string = "http://localhost:3000/todos";
+const baseURL: string = "http://localhost:3300/todos";
 
 export const getTodos = async (): Promise<Todo[]> => {
     return fetch(baseURL)

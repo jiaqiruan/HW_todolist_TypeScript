@@ -3,10 +3,13 @@ import { getTodosAsync, createTodoAsync, updateTodoAsync, deleteTodoAsync, selec
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { RootState } from "../../app/store";
 import { Todo } from "../../type/todo";
+import { log } from "console";
 
 const Todolist: React.FC = ()=>{
     const dispatch = useAppDispatch();
     const todos = useAppSelector(selectTodos);
+    console.log(todos);
+    
 
     const [newTodo, setNewTodo] = useState<string>("");
     const [editId, setEditId] = useState<string | null>(null);
@@ -18,6 +21,7 @@ const Todolist: React.FC = ()=>{
 
     const handleSubmit = ()=>{
         dispatch(createTodoAsync({content: newTodo}));
+        dispatch(getTodosAsync());
         setNewTodo("");
     };
 
@@ -26,6 +30,7 @@ const Todolist: React.FC = ()=>{
             dispatch(updateTodoAsync({id:id, content: editInput}));
             setEditInput("");
             setEditId(null);
+            dispatch(getTodosAsync());
         }else{
             const todo = todos.find((todo) => todo.id === id);
             if(todo){
@@ -33,10 +38,12 @@ const Todolist: React.FC = ()=>{
             }
             setEditId(id);
         }
+
     }
 
     const handleDelete = (id:string)=>{
         dispatch(deleteTodoAsync({id}));
+        dispatch(getTodosAsync());
     }
 
     return(
